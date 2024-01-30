@@ -26,11 +26,13 @@ namespace Basket.API.Repositories
 			if (String.IsNullOrEmpty(basket))
 				return null;
 
+			// chuyển đổi từ chuỗi Json sang đối tượng ShoppingCart
 			return JsonConvert.DeserializeObject<ShoppingCart>(basket);
 		}
 
 		public async Task<ShoppingCart> UpdateBasket(ShoppingCart basket)
 		{
+			// chuyển đổi từ đối tượng ShoppingCart sang chuỗi Json
 			await _redisCache.SetStringAsync(basket.UserName, JsonConvert.SerializeObject(basket));
 			return await GetBasket(basket.UserName);
 		}
