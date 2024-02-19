@@ -23,8 +23,15 @@ namespace Ordering.Infrastructure
 
 			services.Configure<EmailSettings>(options =>
 			{
+				int port;
 				options.Host = configuration["EmailSettings:Host"];
-				options.Port = Int32.Parse(configuration["EmailSettings:Port"]);
+				if (int.TryParse(configuration["EmailSettings:Port"], out port))
+				{
+					options.Port = port;
+				} else
+				{
+					options.Port = 0;
+				}
 				options.User = configuration["EmailSettings:User"];
 				options.Password = configuration["EmailSettings:Password"];
 			});
